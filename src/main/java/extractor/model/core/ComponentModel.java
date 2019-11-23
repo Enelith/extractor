@@ -2,7 +2,7 @@ package extractor.model.core;
 
 import java.lang.reflect.Field;
 
-import org.apache.axis.utils.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import extractor.model.core.interfaces.IComponentModel;
 import extractor.utils.ExtractorUtils;
@@ -39,7 +39,7 @@ public abstract class ComponentModel extends BaseModel implements IComponentMode
 
 	    sFieldLength = properties.getProperty(fatherClass + "." + f.getName());
 	    fieldLength = Math.max(0,
-			!StringUtils.isEmpty(sFieldLength)
+			!ExtractorUtils.isEmpty(sFieldLength)
 				    ? Integer.parseInt(sFieldLength)
 				    : -1);
 
@@ -47,12 +47,22 @@ public abstract class ComponentModel extends BaseModel implements IComponentMode
 		try {
 		    // Récupérer la valeur du champs;
 		    fieldValue = (String) f.get(this);
+		    fieldValue = (!ExtractorUtils.isEmpty(fieldValue)
+				? fieldValue
+				: "");
 
-		    // RPAD la valeur du champs
-		    fieldValue = String.format("%1$-" + fieldLength + "s",
-				(!StringUtils.isEmpty(fieldValue)
-					    ? fieldValue
-					    : ""));
+		    String lpadFiller = properties.getProperty(fatherClass + "." + f.getName() + "." + "lpad.filler");
+		    String rpadFiller = properties.getProperty(fatherClass + "." + f.getName() + "." + "rpad.filler");
+
+		    if (!ExtractorUtils.isEmpty(lpadFiller)) {
+			fieldValue = StringUtils.leftPad(fieldValue, fieldLength, lpadFiller);
+		    } else {
+			fieldValue = StringUtils.rightPad(fieldValue,
+				    fieldLength,
+				    (!ExtractorUtils.isEmpty(rpadFiller)
+						? rpadFiller
+						: ""));
+		    }
 
 		    // Limiter la taille valeur du champs à la fieldLength settée
 		    fieldValue = fieldValue.substring(0, fieldLength);

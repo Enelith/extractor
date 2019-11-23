@@ -9,7 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import org.apache.axis.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +39,7 @@ public class ExtractorProperties {
 	    properties.load(input);
 
 	    logger.debug(LOGGER_HEADER + "Checking externalized properties for VM arg : " + VM_EXTERNALISE_VAR_PATH);
-	    if (!StringUtils.isEmpty(System.getProperty(VM_EXTERNALISE_VAR_PATH))) {
+	    if (!ExtractorUtils.isEmpty(System.getProperty(VM_EXTERNALISE_VAR_PATH))) {
 		Path pathExternalise = Paths.get(System.getProperty(VM_EXTERNALISE_VAR_PATH));
 
 		logger.debug(LOGGER_HEADER + "Loading externalized properties at : "

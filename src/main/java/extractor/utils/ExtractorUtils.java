@@ -6,8 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.axis.utils.StringUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author jvinh
