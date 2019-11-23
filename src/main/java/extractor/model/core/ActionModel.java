@@ -9,7 +9,6 @@ import java.util.List;
 
 import extractor.exception.RuleException;
 import extractor.exception.ValidationErrorException;
-import extractor.model.core.interfaces.IComponentModel;
 import extractor.utils.ExtractorUtils;
 import extractor.utils.ExtractorValidator;
 
