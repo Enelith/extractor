@@ -9,6 +9,7 @@ import java.util.List;
 
 import extractor.exception.RuleException;
 import extractor.exception.ValidationErrorException;
+import extractor.model.core.interfaces.IComponentModel;
 import extractor.utils.ExtractorUtils;
 import extractor.utils.ExtractorValidator;
 
@@ -44,10 +45,9 @@ public abstract class ActionModel extends BaseModel {
 	    try {
 		// obtain the field value from the object instance
 		Object fieldValue = f.get(this);
-
-		String rowValue = exploreComponent(f.getType(), fieldValue);
 		
-		result.add(rowValue);
+		result.add( ((IComponentModel) fieldValue).generateParticle(f.getType().getSimpleName()) );
+		
 	    } catch (IllegalAccessException e) {
 		logger.error(LOGGER_HEADER + "(IllegalAccessException) : " + e.getMessage());
 	    }
