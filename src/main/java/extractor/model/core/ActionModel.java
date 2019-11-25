@@ -45,9 +45,11 @@ public abstract class ActionModel extends BaseModel {
 	    try {
 		// obtain the field value from the object instance
 		Object fieldValue = f.get(this);
-		
-		result.add( ((IComponentModel) fieldValue).generateParticle(f.getType().getSimpleName()) );
-		
+
+		if (IComponentModel.class.isAssignableFrom(f.getType())
+			    && !ExtractorUtils.isEmpty(fieldValue)) {
+		    result.add(((IComponentModel) fieldValue).generateParticle(f.getType().getSimpleName()));
+		}
 	    } catch (IllegalAccessException e) {
 		logger.error(LOGGER_HEADER + "(IllegalAccessException) : " + e.getMessage());
 	    }
@@ -97,8 +99,8 @@ public abstract class ActionModel extends BaseModel {
     /**
      * Appelle la méthode "generateParticle" d'un objet de type ComponentModel
      * 
-     * @param targetClass the target class object
-     * @param fieldInstance     the instance of the field from the object instance
+     * @param targetClass   the target class object
+     * @param fieldInstance   the instance of the field from the object instance
      */
     private String exploreComponent(Class<?> targetClass, Object fieldInstance) {
 	String methodName = new Object() {
